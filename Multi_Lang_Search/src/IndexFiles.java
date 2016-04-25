@@ -59,8 +59,8 @@ public class IndexFiles
                  + " [-index INDEX_PATH] [-docs DOCS_PATH] [-update]\n\n"
                  + "This indexes the documents in DOCS_PATH, creating a Lucene index"
                  + "in INDEX_PATH that can be searched with SearchFiles";
-    String indexPath = "E:\\JAVA";
-    String docsPath = "D:/Mtech/Academic/Semester4/Information Retrieval/IR Project/Data Set/eng-hindi-dict-utf8";
+    String indexPath = "D:\\JAVA";
+    String docsPath = "D:/Data Set/eng-hindi-dict-utf8";
     boolean create = true;
     for(int i=0;i<args.length;i++) 
     {

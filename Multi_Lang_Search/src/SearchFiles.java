@@ -75,7 +75,7 @@ private SearchFiles() {}
   public static void main(String[] args) throws Exception 
   {
 	  // making list of POS full forms
-	  FileReader fr=new FileReader(new File("D:\\Mtech\\Academic\\Semester4\\Information Retrieval\\IR Project\\Project\\Multi_Lang_Search\\Pos_Tag_List"));
+	  FileReader fr=new FileReader(new File("D:\\Multi_Lang_Search\\Pos_Tag_List"));
       BufferedReader br = new BufferedReader(fr);
       String s="";
       HashMap<String,String> full_POS =new HashMap<String,String>();
@@ -90,10 +90,10 @@ private SearchFiles() {}
       System.out.println("Full POS: "+full_POS);
 	  
 	  // adding wordnet dictionary to program
-	  File f=new File("WordNet\\2.1\\dict");
+	  File f=new File("D:\\WordNet\\2.1\\dict");
       System.setProperty("wordnet.database.dir", f.toString());
       
-      URL url=new URL("file",null,"WordNet\\2.1\\dict");
+      URL url=new URL("file",null,"D:\\WordNet\\2.1\\dict");
       // construct the dictionary object and open it
       IDictionary dict = new Dictionary ( url ) ;
       dict . open () ;
@@ -108,7 +108,7 @@ private SearchFiles() {}
       System.exit(0);
     }
 
-    String index = "E:\\JAVA";
+    String index = "D:\\JAVA";
     String field = "contents";
     String queries = null;
     int repeat = 0;
@@ -187,7 +187,7 @@ private SearchFiles() {}
       
       
       // doing POS Tagging
-      MaxentTagger tagger =  new MaxentTagger("D:\\Mtech\\Academic\\Semester4\\Information Retrieval\\IR Project\\Project\\Multi_Lang_Search\\Tagger\\english-left3words-distsim.tagger");
+      MaxentTagger tagger =  new MaxentTagger("D:\\Tagger\\english-left3words-distsim.tagger");
       String tagged = tagger.tagString(line);
       System.out.println(tagger.tagSet());
      
