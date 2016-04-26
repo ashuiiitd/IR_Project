@@ -53,34 +53,31 @@ public class IndexFiles
   private IndexFiles() {}
 
   /** Index all text files under a directory. */
-  public static void main(String[] args) 
+  public static void indexing(Analyzer analyzer,String indexPath,String docsPath) 
   {
     String usage = "java org.apache.lucene.demo.IndexFiles"
                  + " [-index INDEX_PATH] [-docs DOCS_PATH] [-update]\n\n"
                  + "This indexes the documents in DOCS_PATH, creating a Lucene index"
                  + "in INDEX_PATH that can be searched with SearchFiles";
-    String indexPath = "D:\\JAVA";
-    String docsPath = "D:\\IR_DataSet\\eng-hindi-dict-utf8";
+    
+    //String indexPath = "D:\\English_Index";
+    //String docsPath = "D:\\IR_DataSet\\eng-hindi-dict-utf8";
     boolean create = true;
-    for(int i=0;i<args.length;i++) 
+   /* for(int i=0;i<args.length;i++) 
     {
       if ("-index".equals(args[i])) 
       {
         indexPath = args[i+1];
         i++;
-      } 
-      else if ("-docs".equals(args[i])) 
-      {
+      } else if ("-docs".equals(args[i])) {
         docsPath = args[i+1];
         i++;
-      } else if ("-update".equals(args[i])) 
-      {
+      } else if ("-update".equals(args[i])) {
         create = false;
       }
-    }
+    }*/
 
-    if (docsPath == null) 
-    {
+    if (docsPath == null) {
       System.err.println("Usage: " + usage);
       System.exit(1);
     }
@@ -96,7 +93,7 @@ public class IndexFiles
       System.out.println("Indexing to directory '" + indexPath + "'...");
 
       Directory dir = FSDirectory.open(Paths.get(indexPath));
-      Analyzer analyzer = new StandardAnalyzer();
+      //Analyzer analyzer = new StandardAnalyzer();
       IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 
       if (create) {
