@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -189,12 +190,44 @@ public class SearchFiles
   
   
   
-  public static String makeQuery(String input_query,HashMap<String,HashSet<String>> hm,boolean English)
-  {
-	 String q_words[]=input_query.split(" ");
-	 String string_query="";
-	 for(int it1=0;it1<q_words.length;it1++)
-	 {
+  public static String makeQuery(String input_query,HashMap<String,HashSet<String>> hm,boolean English) throws Exception
+  {   //changed by deepak
+	  String q_words[] = null;String query_hindi="";
+	  HashMap<String,HashSet<String>> hs_hindi = new HashMap<String,HashSet<String>>();
+	  if(English==false)
+	  {
+		  //q_words=input_query.split(" ");
+		 for(String str: hm.keySet())
+		 {
+			 String hindi_key=Lang_Translater.translate(str);
+			 query_hindi=str+" ";
+			 Set<String>  synom=hm.get(str);
+			 HashSet<String>  hindi_syno=new HashSet<String>();
+			 for(String s: synom)
+			 {
+				 
+				 String hindi_word=Lang_Translater.translate(s);
+				 	hindi_syno.add(hindi_word);		 
+			 }
+			 //if(!hs_hindi.containsKey(hindi_key))
+				hs_hindi.put(hindi_key,hindi_syno); 
+				 
+		 }
+		 System.out.println(hs_hindi);
+		 query_hindi=query_hindi.trim();
+		 q_words=query_hindi.split(" ");
+		
+		  //System.exit(0);
+	  }	 
+	 
+		 
+	  if(English==true)
+	  {
+		  q_words=input_query.split(" ");
+	  }
+	  String string_query="";
+	  for(int it1=0;it1<q_words.length;it1++)
+	  {
 		  HashSet<String> hs=hm.get(q_words[it1]);
 	
 		  String temp[]=hs.toArray(new String[hs.size()]);
