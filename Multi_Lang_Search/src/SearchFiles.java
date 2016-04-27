@@ -192,7 +192,8 @@ public class SearchFiles
   
   public static String makeQuery(String input_query,HashMap<String,HashSet<String>> hm,boolean English) throws Exception
   {   //changed by deepak
-	  String q_words[] = null;String query_hindi="";
+	  String q_words[] = null;
+	  String query_hindi="";
 	  HashMap<String,HashSet<String>> hs_hindi = new HashMap<String,HashSet<String>>();
 	  if(English==false)
 	  {
@@ -200,7 +201,7 @@ public class SearchFiles
 		 for(String str: hm.keySet())
 		 {
 			 String hindi_key=Lang_Translater.translate(str);
-			 query_hindi=str+" ";
+			 query_hindi=query_hindi+hindi_key+" ";
 			 Set<String>  synom=hm.get(str);
 			 HashSet<String>  hindi_syno=new HashSet<String>();
 			 for(String s: synom)
@@ -218,9 +219,9 @@ public class SearchFiles
 		 q_words=query_hindi.split(" ");
 		
 		  //System.exit(0);
-	  }	 
-	 
-		 
+	  }	
+	  System.out.println("hindi query: "+query_hindi);
+	
 	  if(English==true)
 	  {
 		  q_words=input_query.split(" ");
@@ -228,8 +229,16 @@ public class SearchFiles
 	  String string_query="";
 	  for(int it1=0;it1<q_words.length;it1++)
 	  {
-		  HashSet<String> hs=hm.get(q_words[it1]);
-	
+		  HashSet<String> hs=null;
+		  System.out.println("key word: "+q_words[it1]);
+		  if(English==true)
+		  {
+			  hs=hm.get(q_words[it1]);
+		  }
+		  else
+		  {
+			  hs=hs_hindi.get(q_words[it1]);
+		  }
 		  String temp[]=hs.toArray(new String[hs.size()]);
 		  for(int i=0; i< temp.length;i++)
 		  {
@@ -290,27 +299,43 @@ public class SearchFiles
 			  string_query=string_query+" AND ";
 		  }  		 
 	 }
+	  
+	 System.out.println("query in string format is: "+string_query);
 	 return string_query;
 	 
   }
 
   private static String MakePhraseQuery(String[] new_temp, String string_query) 
   {
+	  String temp="";
+	  temp=temp+"\"";
+	  
 	  for(int j=0;j<new_temp.length;j++)
 	  {
-		  if(j==0)
-		  {
-			  string_query=string_query+"("+new_temp[j]+" AND ";
-		  }
-		  else if(j==new_temp.length-1)
-		  {
-			  string_query=string_query+new_temp[j]+")";
-		  }
-		  else
-		  {
-			  string_query=string_query+new_temp[j]+" AND ";
-		  }
+			temp=temp+new_temp[j];
+			if(j!=new_temp.length-1)
+			{
+				temp=temp+" ";
+			}  
 	  }
+	  temp=temp+"\"";
+//	  for(int j=0;j<new_temp.length;j++)
+//	  {
+//		  if(j==0)
+//		  {
+//			  string_query=string_query+"("+new_temp[j]+" AND ";
+//		  }
+//		  else if(j==new_temp.length-1)
+//		  {
+//			  string_query=string_query+new_temp[j]+")";
+//		  }
+//		  else
+//		  {
+//			  string_query=string_query+new_temp[j]+" AND ";
+//		  }
+//	  }
+	  System.out.println("phrase query: "+ temp);
+	  string_query=string_query+temp;
 	  
 	return string_query;
   }

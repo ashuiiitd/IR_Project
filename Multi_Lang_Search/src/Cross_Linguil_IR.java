@@ -27,16 +27,16 @@ public class Cross_Linguil_IR
 	   System.out.println("............Indexing for English Language..........");
 	   Analyzer eng_analyzer = new StandardAnalyzer();
 	   String eng_indexPath = "D:\\English_Index";
-	   //String docsPath = "D:\\IR_DataSet\\eng-hindi-dict-utf8";
-	   String docsPath="D:\\IR_DataSet\\Megha_Eng_wiki-small\\en\\articles";
+	   String docsPath = "D:\\IR_DataSet\\eng-hindi-dict-utf8";
+	   //String docsPath="D:\\IR_DataSet\\Megha_Eng_wiki-small\\en\\articles";
        IndexFiles.indexing(eng_analyzer,eng_indexPath,docsPath);
        
      //Indexing for Hindi Word  
        System.out.println("............Indexing for Hindi Language..........");
        Analyzer hindi_analyzer = new HindiAnalyzer();
 	   String hindi_indexPath = "D:\\Hindi_Index";
-	  // String hindi_docsPath = "D:\\IR_DataSet\\eng-hindi-dict-utf8";
-	   String hindi_docsPath = "D:\\IR_DataSet\\Yogesh_hindi_wikipedia-hi-html";
+	   String hindi_docsPath = "D:\\IR_DataSet\\eng-hindi-dict-utf8";
+	   //String hindi_docsPath = "D:\\IR_DataSet\\Yogesh_hindi_wikipedia-hi-html";
        IndexFiles.indexing(hindi_analyzer,hindi_indexPath,hindi_docsPath);
        
        
@@ -74,6 +74,7 @@ public class Cross_Linguil_IR
 	   // String input_query=sc.next();
 	    //Set of related synonyms
 	    HashMap<String,HashSet<String>> hm=SearchFiles.getSynonymMap(line);
+	    
 	    String query_format=SearchFiles.makeQuery(line, hm, true);
 	  
 	    IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
@@ -86,7 +87,12 @@ public class Cross_Linguil_IR
 	  QueryParser queryParser = new QueryParser(field, new StandardAnalyzer());
 	  Query query = queryParser.parse(query_format);
 	  System.out.println(" query is "+query);
-	      SearchFiles.doPagingSearch(in, searcher, query, hitsPerPage, raw, queries == null && queryString == null);
+	  SearchFiles.doPagingSearch(in, searcher, query, hitsPerPage, raw, queries == null && queryString == null);
+//	  
+//	  QueryParser queryParser = new QueryParser(field, new StandardAnalyzer());
+//	  Query query = queryParser.parse("\"daily newspaper\"");
+//	  System.out.println(" query is "+query);
+//	  SearchFiles.doPagingSearch(in, searcher, query, hitsPerPage, raw, queries == null && queryString == null);
 	   
 	      // search with query parser
 	 
@@ -96,7 +102,7 @@ public class Cross_Linguil_IR
 	 IndexReader reader_hindi = DirectoryReader.open(FSDirectory.open(Paths.get(hindi_indexPath)));
 	 IndexSearcher searcher_hindi = new IndexSearcher(reader_hindi);
 	 QueryParser queryParser_hindi = new QueryParser(field, new HindiAnalyzer());
-	  Query query_hindi = queryParser.parse(hindi_Search);
+	  Query query_hindi = queryParser_hindi.parse(hindi_Search);
 	  System.out.println(" query is "+query_hindi);
 	      SearchFiles.doPagingSearch(in, searcher_hindi, query_hindi, hitsPerPage, raw, queries == null && queryString == null);
 	   
