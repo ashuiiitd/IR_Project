@@ -12,10 +12,12 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.FieldInvertState;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
 
 
@@ -81,7 +83,18 @@ public class Cross_Linguil_IR
 	    IndexSearcher searcher = new IndexSearcher(reader);
 	    //Analyzer analyzer = new StandardAnalyzer();
 	
-	    
+//	    /*//IndexSearcher searcher = new IndexSearcher(reader);
+
+
+    searcher.setSimilarity(new ClassicSimilarity () {
+	   	   	public float computeNorm(FieldInvertState state,String field){
+	   	   		return 1.0f;
+	   	   	}
+	   	   }
+   	      );
+
+
+	   
 	      
 	    
 	  QueryParser queryParser = new QueryParser(field, new StandardAnalyzer());
@@ -101,6 +114,17 @@ public class Cross_Linguil_IR
 	 String hindi_Search=SearchFiles.makeQuery(line, hm,false);
 	 IndexReader reader_hindi = DirectoryReader.open(FSDirectory.open(Paths.get(hindi_indexPath)));
 	 IndexSearcher searcher_hindi = new IndexSearcher(reader_hindi);
+	 //IndexSearcher searcher = new IndexSearcher(reader);
+	 //IndexSearcher searcher = new IndexSearcher(reader);
+
+
+	 searcher_hindi.setSimilarity(new ClassicSimilarity () {
+		   	public float computeNorm(FieldInvertState state,String field){
+		   		return 1.0f;
+		   	}
+		   }
+		      );
+
 	 QueryParser queryParser_hindi = new QueryParser(field, new HindiAnalyzer());
 	  Query query_hindi = queryParser_hindi.parse(hindi_Search);
 	  System.out.println(" query is "+query_hindi);

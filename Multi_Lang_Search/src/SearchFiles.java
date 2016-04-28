@@ -193,15 +193,16 @@ public class SearchFiles
   public static String makeQuery(String input_query,HashMap<String,HashSet<String>> hm,boolean English) throws Exception
   {   //changed by deepak
 	  String q_words[] = null;
-	  String query_hindi="";
 	  HashMap<String,HashSet<String>> hs_hindi = new HashMap<String,HashSet<String>>();
+	  String query_hindi[]=new String[hm.keySet().size()];
 	  if(English==false)
 	  {
 		  //q_words=input_query.split(" ");
+		  int it=0;
 		 for(String str: hm.keySet())
 		 {
 			 String hindi_key=Lang_Translater.translate(str);
-			 query_hindi=query_hindi+hindi_key+" ";
+			 query_hindi[it]=hindi_key;
 			 Set<String>  synom=hm.get(str);
 			 HashSet<String>  hindi_syno=new HashSet<String>();
 			 for(String s: synom)
@@ -212,11 +213,10 @@ public class SearchFiles
 			 }
 			 //if(!hs_hindi.containsKey(hindi_key))
 				hs_hindi.put(hindi_key,hindi_syno); 
-				 
+			it++;
 		 }
 		 System.out.println(hs_hindi);
-		 query_hindi=query_hindi.trim();
-		 q_words=query_hindi.split(" ");
+		 q_words=query_hindi.clone();
 		
 		  //System.exit(0);
 	  }	
@@ -239,6 +239,8 @@ public class SearchFiles
 		  {
 			  hs=hs_hindi.get(q_words[it1]);
 		  }
+		  if(hs!=null)
+		  {
 		  String temp[]=hs.toArray(new String[hs.size()]);
 		  for(int i=0; i< temp.length;i++)
 		  {
@@ -297,7 +299,8 @@ public class SearchFiles
 		  if(it1 !=q_words.length-1)
 		  {
 			  string_query=string_query+" AND ";
-		  }  		 
+		  }
+		  }
 	 }
 	  
 	 System.out.println("query in string format is: "+string_query);
